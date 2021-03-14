@@ -4,14 +4,15 @@ import cucumber.api.java.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.allure.annotations.Attachment;
 import util.TestProperties;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 public class BaseSteps {
+
     private static WebDriver driver;
+
     public static WebDriver getDriver(){
 
         return driver;
@@ -34,17 +35,15 @@ public class BaseSteps {
 
         driver.manage().window().maximize();
         driver .get("https://yandex.ru/");
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver .manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
-
-
+        driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        driver .manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
     }
+    public void goElementByJS(WebElement element){
+        ((JavascriptExecutor) BaseSteps.getDriver()).executeScript("return arguments[0].scrollIntoView(true);", element);}
 
-
-   // @After
-   // public void afterMethod(){
-   //     driver.quit();
-   // }
+   @After
+    public void afterMethod(){ driver.quit();
+    }
 
     @Attachment(type = "image/png", value = "Screenshot")
     public static byte[] takeScreenshot() {
